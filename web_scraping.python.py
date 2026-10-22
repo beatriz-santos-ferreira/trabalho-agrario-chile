@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-print("Projeto Piloto de Pesquisa Econômica ---\n Trabalho Agrícola no Chile em 2020/2021")
+print("Projeto Piloto de Pesquisa Econômica\n Trabalho Agrícola no Chile em 2020/2021")
 
 # -----------------------------------------------------------
 # Capítulo 1: Manipular e limpar dados
@@ -34,8 +34,8 @@ df_filtrado = df[['Regiao', 'Total_Trabalhadores_Permanentes', 'Total_Trabalhado
 # iloc: Integer Location
 total_permanentes = df_filtrado.iloc[0]['Total_Trabalhadores_Permanentes']
 total_temporarios = df_filtrado.iloc[0]['Total_Trabalhadores_Temporarios']
-print(f"-> Total de Trabalhadores Permanentes : {total_permanentes}")
-print(f"-> Total de Trabalhadores Temporários : {total_temporarios}\n")
+print(f"* Total de Trabalhadores Permanentes : {total_permanentes}")
+print(f"* Total de Trabalhadores Temporários : {total_temporarios}\n")
 
 # -----------------------------------------------------------
 # Capítulo 2: Utilizando API com dados do Banco Mundial
@@ -56,7 +56,7 @@ dados_api = resposta.json()
 # [0] contém data e [1], o dado percentual
 dado_pib_agricola = dados_api[1][0]['value'] 
 ano_dado = dados_api[1][0]['date']
-print(f"-> A agricultura representou {dado_pib_agricola:.2f}% do PIB do Chile no ano de {ano_dado}.\n")
+print(f"* A agricultura representou {dado_pib_agricola:.2f}% do PIB do Chile no ano de {ano_dado}.\n")
 
 # -----------------------------------------------------------
 # Capítulo 3: Web-scraping com Selenium no INE
@@ -80,15 +80,15 @@ try:
     indicadores = navegador.find_elements(By.CLASS_NAME, "indicator-value") 
     titulos = navegador.find_elements(By.CLASS_NAME, "indicator-title")
     
-    print("-> Dados extraídos do site via Scraping:")
+    print("* Dados extraídos do site via Scraping:")
     for i in range(min(len(indicadores), 3)): # Pegar os 3 primeiros
         print(f"   * {titulos[i].text}: {indicadores[i].text}")
 except Exception as e:
-    print("-> Nota: Os indicadores dinâmicos não estavam visíveis ou a estrutura do site mudou.")
+    print("* Nota: Os indicadores dinâmicos não estavam visíveis ou a estrutura do site mudou.")
 
 # Fecho o navegador fantasma
 navegador.quit()
 
 print("Coleta e manipulação dos dados realizada com sucesso!")
 # Salva tudo em um novo Excel: df_limpo.to_excel("Dados_Finais_Limpos.xlsx")
-df_filtrado.to_excel("Base_Agricola_Limpa_2020_2021.xlsx", index=False)
+df_filtrado.to_excel("base_agricola_limpa_2020_2021.xlsx", index=False)
